@@ -2,7 +2,7 @@ export const Recipe = [
   {
     id: 1,
     Restaurantsname: "Pizza palace",
-
+    Average: 4.3,
     rating: [
       { name: "aniket", rating: 4.5, comment: "good" },
       { name: "shubham", rating: 4.0, comment: "very good" },
@@ -43,7 +43,7 @@ export const Recipe2 = [
   {
     id: 2,
     Restaurantsname: "Yummy Section",
-
+    Avarage: 4.2,
     rating: [
       { name: "aniket", rating: 4.5, comment: "good" },
       { name: "shubham", rating: 4.0, comment: "very good" },
