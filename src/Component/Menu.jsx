@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { Recipe, Recipe2 } from "../assets/Data";
 import "./Menu.css";
+import { useNavigate } from "react-router-dom";
 export const Menu = () => {
-  const [cuisineName, setCuisineName] = useState([]);
+  const navigate = useNavigate();
+  const [cuisineName, setCuisineName] = useState(() =>
+    Recipe.map(({ menu }) => menu)
+  );
+  const [cuisineName2, setCuisineName2] = useState(() =>
+    Recipe2.map(({ menu }) => menu)
+  );
 
   const handletype = (type) => {
     const filter = Recipe.map(({ menu }) =>
@@ -10,7 +17,12 @@ export const Menu = () => {
         cuisinetype.toLowerCase().includes(type.toLowerCase())
       )
     );
-
+    const filter2 = Recipe2.map(({ menu }) =>
+      menu.filter(({ cuisinetype }) =>
+        cuisinetype.toLowerCase().includes(type.toLowerCase())
+      )
+    );
+    setCuisineName2(filter2);
     setCuisineName(filter);
   };
   console.log(cuisineName);
@@ -27,22 +39,27 @@ export const Menu = () => {
 
       <div className="menu">
         {Recipe.map((items) => {
-          const { Restaurantsname, id, menu } = items;
+          const { Restaurantsname, id } = items;
           return (
             <div key={id}>
               <h1>dish by {Restaurantsname}</h1>
               <div className="menu-list">
-                {menu.map((list) => {
-                  const { image, name, price } = list;
-                  return (
-                    <div className="menu-items">
-                      <img className="menu-image" src={image} />
-                      <h3>{name}</h3>
-                      <p>Rs:{price}</p>
-                      <p>{Restaurantsname}</p>
-                    </div>
-                  );
-                })}
+                {cuisineName.map((menu) =>
+                  menu.map((list) => {
+                    const { image, name, price } = list;
+                    return (
+                      <div
+                        onClick={() => navigate(`/details/${id}`)}
+                        className="menu-items"
+                      >
+                        <img className="menu-image" src={image} />
+                        <h3>{name}</h3>
+                        <p>Rs:{price}</p>
+                        <p>{Restaurantsname}</p>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           );
@@ -55,22 +72,28 @@ export const Menu = () => {
             <div key={id}>
               <h1>dish by {Restaurantsname}</h1>
               <div className="menu-list">
-                {menu.map((list) => {
-                  const { image, name, price } = list;
-                  return (
-                    <div className="menu-items">
-                      <img className="menu-image" src={image} />
-                      <h3>{name}</h3>
-                      <p>Rs.{price}</p>
-                      <p>{Restaurantsname}</p>
-                    </div>
-                  );
-                })}
+                {cuisineName2.map((menu) =>
+                  menu.map((list) => {
+                    const { image, name, price } = list;
+                    return (
+                      <div
+                        onClick={() => navigate(`/details/${id}`)}
+                        className="menu-items"
+                      >
+                        <img className="menu-image" src={image} />
+                        <h3>{name}</h3>
+                        <p>Rs:{price}</p>
+                        <p>{Restaurantsname}</p>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           );
         })}
       </div>
+      {cuisineName.map((items) => items.map((list) => console.log(list)))}
     </div>
   );
 };
